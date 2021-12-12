@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,6 +13,8 @@
  */
 
 namespace Hype;
+
+use InvalidArgumentException;
 
 /**
  * Interface to be implemented by all templates.
@@ -29,18 +33,18 @@ interface TemplateReferenceInterface
     /**
      * Sets a template parameter.
      *
-     * @return $this
+     * @throws InvalidArgumentException if the parameter name is not supported
      *
-     * @throws \InvalidArgumentException if the parameter name is not supported
+     * @return $this
      */
     public function set(string $name, string $value);
 
     /**
      * Gets a template parameter.
      *
-     * @return string
+     * @throws InvalidArgumentException if the parameter name is not supported
      *
-     * @throws \InvalidArgumentException if the parameter name is not supported
+     * @return string
      */
     public function get(string $name);
 

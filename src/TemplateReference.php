@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,6 +13,10 @@
  */
 
 namespace Hype;
+
+use InvalidArgumentException;
+
+use function array_key_exists;
 
 /**
  * Internal representation of a template.
@@ -30,7 +36,7 @@ class TemplateReference implements TemplateReferenceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __toString()
     {
@@ -38,33 +44,33 @@ class TemplateReference implements TemplateReferenceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function set(string $name, string $value)
     {
-        if (\array_key_exists($name, $this->parameters)) {
+        if (array_key_exists($name, $this->parameters)) {
             $this->parameters[$name] = $value;
         } else {
-            throw new \InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
+            throw new InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
         }
 
         return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function get(string $name)
     {
-        if (\array_key_exists($name, $this->parameters)) {
+        if (array_key_exists($name, $this->parameters)) {
             return $this->parameters[$name];
         }
 
-        throw new \InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
+        throw new InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function all()
     {
@@ -72,7 +78,7 @@ class TemplateReference implements TemplateReferenceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getPath()
     {
@@ -80,7 +86,7 @@ class TemplateReference implements TemplateReferenceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getLogicalName()
     {

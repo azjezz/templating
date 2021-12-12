@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,10 +13,12 @@
 
 namespace Hype\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Hype\DelegatingEngine;
 use Hype\EngineInterface;
 use Hype\StreamingEngineInterface;
+use LogicException;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class DelegatingEngineTest extends TestCase
 {
@@ -23,7 +27,7 @@ class DelegatingEngineTest extends TestCase
         $firstEngine = $this->getEngineMock('template.php', false);
         $secondEngine = $this->getEngineMock('template.php', true);
 
-        $secondEngine->expects($this->once())
+        $secondEngine->expects(static::once())
             ->method('render')
             ->with('template.php', ['foo' => 'bar'])
             ->willReturn('<html />');
@@ -31,12 +35,12 @@ class DelegatingEngineTest extends TestCase
         $delegatingEngine = new DelegatingEngine([$firstEngine, $secondEngine]);
         $result = $delegatingEngine->render('template.php', ['foo' => 'bar']);
 
-        $this->assertSame('<html />', $result);
+        static::assertSame('<html />', $result);
     }
 
     public function testRenderWithNoSupportedEngine()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('No engine is able to work with the template "template.php"');
         $firstEngine = $this->getEngineMock('template.php', false);
         $secondEngine = $this->getEngineMock('template.php', false);
@@ -48,7 +52,7 @@ class DelegatingEngineTest extends TestCase
     public function testStreamDelegatesToSupportedEngine()
     {
         $streamingEngine = $this->getStreamingEngineMock('template.php', true);
-        $streamingEngine->expects($this->once())
+        $streamingEngine->expects(static::once())
             ->method('stream')
             ->with('template.php', ['foo' => 'bar'])
             ->willReturn('<html />');
@@ -56,12 +60,12 @@ class DelegatingEngineTest extends TestCase
         $delegatingEngine = new DelegatingEngine([$streamingEngine]);
         $result = $delegatingEngine->stream('template.php', ['foo' => 'bar']);
 
-        $this->assertNull($result);
+        static::assertNull($result);
     }
 
     public function testStreamRequiresStreamingEngine()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Template "template.php" cannot be streamed as the engine supporting it does not implement StreamingEngineInterface');
         $delegatingEngine = new DelegatingEngine([new TestEngine()]);
         $delegatingEngine->stream('template.php', ['foo' => 'bar']);
@@ -70,14 +74,14 @@ class DelegatingEngineTest extends TestCase
     public function testExists()
     {
         $engine = $this->getEngineMock('template.php', true);
-        $engine->expects($this->once())
+        $engine->expects(static::once())
             ->method('exists')
             ->with('template.php')
             ->willReturn(true);
 
         $delegatingEngine = new DelegatingEngine([$engine]);
 
-        $this->assertTrue($delegatingEngine->exists('template.php'));
+        static::assertTrue($delegatingEngine->exists('template.php'));
     }
 
     public function testSupports()
@@ -86,7 +90,7 @@ class DelegatingEngineTest extends TestCase
 
         $delegatingEngine = new DelegatingEngine([$engine]);
 
-        $this->assertTrue($delegatingEngine->supports('template.php'));
+        static::assertTrue($delegatingEngine->supports('template.php'));
     }
 
     public function testSupportsWithNoSupportedEngine()
@@ -95,7 +99,7 @@ class DelegatingEngineTest extends TestCase
 
         $delegatingEngine = new DelegatingEngine([$engine]);
 
-        $this->assertFalse($delegatingEngine->supports('template.php'));
+        static::assertFalse($delegatingEngine->supports('template.php'));
     }
 
     public function testGetExistingEngine()
@@ -105,12 +109,12 @@ class DelegatingEngineTest extends TestCase
 
         $delegatingEngine = new DelegatingEngine([$firstEngine, $secondEngine]);
 
-        $this->assertSame($secondEngine, $delegatingEngine->getEngine('template.php'));
+        static::assertSame($secondEngine, $delegatingEngine->getEngine('template.php'));
     }
 
     public function testGetInvalidEngine()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('No engine is able to work with the template "template.php"');
         $firstEngine = $this->getEngineMock('template.php', false);
         $secondEngine = $this->getEngineMock('template.php', false);
@@ -123,7 +127,7 @@ class DelegatingEngineTest extends TestCase
     {
         $engine = $this->createMock(EngineInterface::class);
 
-        $engine->expects($this->once())
+        $engine->expects(static::once())
             ->method('supports')
             ->with($template)
             ->willReturn($supports);
@@ -135,7 +139,7 @@ class DelegatingEngineTest extends TestCase
     {
         $engine = $this->getMockForAbstractClass(MyStreamingEngine::class);
 
-        $engine->expects($this->once())
+        $engine->expects(static::once())
             ->method('supports')
             ->with($template)
             ->willReturn($supports);
@@ -144,7 +148,7 @@ class DelegatingEngineTest extends TestCase
     }
 }
 
-interface MyStreamingEngine extends StreamingEngineInterface, EngineInterface
+interface MyStreamingEngine extends EngineInterface, StreamingEngineInterface
 {
 }
 

@@ -1,0 +1,17 @@
+{
+    "source": {
+        "directories": [
+            "src/"
+        ]
+    },
+    "logs": {
+        "text": "php://stderr",
+        "github": true,
+        "badge": {
+            "branch": "/^\\d+\\.\\d+\\.x$/"
+        }
+    },
+    "timeout": 10,
+    "minMsi": 85,
+    "minCoveredMsi": 95
+}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -15,6 +17,10 @@ namespace Hype\Loader;
 use Hype\Storage\FileStorage;
 use Hype\TemplateReferenceInterface;
 
+use function strlen;
+
+use const PHP_URL_SCHEME;
+
 /**
  * FilesystemLoader is a loader that read templates from the filesystem.
  *
@@ -29,11 +35,23 @@ class FilesystemLoader extends Loader
      */
     public function __construct($templatePathPatterns)
     {
-        $this->templatePathPatterns = (array) $templatePathPatterns;
+        $this->templatePathPatterns = (array)$templatePathPatterns;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     */
+    public function isFresh(TemplateReferenceInterface $template, int $time)
+    {
+        if (false === $storage = $this->load($template)) {
+            return false;
+        }
+
+        return filemtime((string)$storage) < $time;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function load(TemplateReferenceInterface $template)
     {
@@ -45,7 +63,8 @@ class FilesystemLoader extends Loader
 
         $replacements = [];
         foreach ($template->all() as $key => $value) {
-            $replacements['%'.$key.'%'] = $value;
+            $replacement_key = '%' . $key . '%';
+            $replacements[$replacement_key] = $value;
         }
 
         $fileFailures = [];
@@ -74,34 +93,20 @@ class FilesystemLoader extends Loader
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function isFresh(TemplateReferenceInterface $template, int $time)
-    {
-        if (false === $storage = $this->load($template)) {
-            return false;
-        }
-
-        return filemtime((string) $storage) < $time;
-    }
-
-    /**
      * Returns true if the file is an existing absolute path.
      *
      * @return bool
      */
     protected static function isAbsolutePath(string $file)
     {
-        if ('/' == $file[0] || '\\' == $file[0]
-            || (\strlen($file) > 3 && ctype_alpha($file[0])
-                && ':' == $file[1]
-                && ('\\' == $file[2] || '/' == $file[2])
-            )
-            || null !== parse_url($file, \PHP_URL_SCHEME)
-        ) {
+        if ('/' === $file[0] || '\\' === $file[0]) {
             return true;
         }
 
-        return false;
+        if (strlen($file) > 3 && ctype_alpha($file[0]) && ':' === $file[1] && ('\\' === $file[2] || '/' === $file[2])) {
+            return true;
+        }
+
+        return null !== parse_url($file, PHP_URL_SCHEME);
     }
 }

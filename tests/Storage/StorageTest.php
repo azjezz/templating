@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,15 +13,15 @@
 
 namespace Hype\Tests\Storage;
 
-use PHPUnit\Framework\TestCase;
 use Hype\Storage\Storage;
+use PHPUnit\Framework\TestCase;
 
 class StorageTest extends TestCase
 {
     public function testMagicToString()
     {
         $storage = new TestStorage('foo');
-        $this->assertEquals('foo', (string) $storage, '__toString() returns the template name');
+        static::assertEquals('foo', (string) $storage, '__toString() returns the template name');
     }
 }
 

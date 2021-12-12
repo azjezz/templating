@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -14,6 +16,9 @@ namespace Hype\Loader;
 
 use Hype\Storage\FileStorage;
 use Hype\TemplateReferenceInterface;
+use RuntimeException;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * CacheLoader is a loader that caches other loaders responses
@@ -39,14 +44,14 @@ class CacheLoader extends Loader
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function load(TemplateReferenceInterface $template)
     {
         $key = hash('sha256', $template->getLogicalName());
-        $dir = $this->dir.\DIRECTORY_SEPARATOR.substr($key, 0, 2);
-        $file = substr($key, 2).'.tpl';
-        $path = $dir.\DIRECTORY_SEPARATOR.$file;
+        $dir = $this->dir . DIRECTORY_SEPARATOR . substr($key, 0, 2);
+        $file = substr($key, 2) . '.tpl';
+        $path = $dir . DIRECTORY_SEPARATOR . $file;
 
         if (is_file($path)) {
             if (null !== $this->logger) {
@@ -63,7 +68,7 @@ class CacheLoader extends Loader
         $content = $storage->getContent();
 
         if (!is_dir($dir) && !@mkdir($dir, 0777, true) && !is_dir($dir)) {
-            throw new \RuntimeException(sprintf('Cache Loader was not able to create directory "%s".', $dir));
+            throw new RuntimeException(sprintf('Cache Loader was not able to create directory "%s".', $dir));
         }
 
         file_put_contents($path, $content);
@@ -76,7 +81,7 @@ class CacheLoader extends Loader
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function isFresh(TemplateReferenceInterface $template, int $time)
     {

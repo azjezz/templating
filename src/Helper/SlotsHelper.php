@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,6 +13,11 @@
  */
 
 namespace Hype\Helper;
+
+use InvalidArgumentException;
+use LogicException;
+
+use function in_array;
 
 /**
  * SlotsHelper manages template slots.
@@ -28,30 +35,30 @@ class SlotsHelper extends Helper
      * This method starts an output buffer that will be
      * closed when the stop() method is called.
      *
-     * @throws \InvalidArgumentException if a slot with the same name is already started
+     * @throws InvalidArgumentException if a slot with the same name is already started
      */
     public function start(string $name)
     {
-        if (\in_array($name, $this->openSlots)) {
-            throw new \InvalidArgumentException(sprintf('A slot named "%s" is already started.', $name));
+        if (in_array($name, $this->openSlots, true)) {
+            throw new InvalidArgumentException(sprintf('A slot named "%s" is already started.', $name));
         }
 
         $this->openSlots[] = $name;
         $this->slots[$name] = '';
 
         ob_start();
-        ob_implicit_flush(0);
+        ob_implicit_flush(PHP_VERSION_ID >= 80000 ? false : 0);
     }
 
     /**
      * Stops a slot.
      *
-     * @throws \LogicException if no slot has been started
+     * @throws LogicException if no slot has been started
      */
     public function stop()
     {
         if (!$this->openSlots) {
-            throw new \LogicException('No slot started.');
+            throw new LogicException('No slot started.');
         }
 
         $name = array_pop($this->openSlots);

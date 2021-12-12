@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,10 +13,10 @@
 
 namespace Hype\Tests\Loader;
 
-use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use Hype\Loader\Loader;
 use Hype\TemplateReferenceInterface;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 class LoaderTest extends TestCase
 {
@@ -23,7 +25,7 @@ class LoaderTest extends TestCase
         $loader = new ProjectTemplateLoader4();
         $logger = $this->createMock(LoggerInterface::class);
         $loader->setLogger($logger);
-        $this->assertSame($logger, $loader->getLogger(), '->setLogger() sets the logger instance');
+        static::assertSame($logger, $loader->getLogger(), '->setLogger() sets the logger instance');
     }
 }
 

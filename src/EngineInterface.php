@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  * (c) Saif Eddin Gmati <azjezz@protonmail.com>
@@ -10,6 +12,8 @@
  */
 
 namespace Hype;
+
+use RuntimeException;
 
 /**
  * EngineInterface is the interface each engine must implement.
@@ -33,12 +37,12 @@ interface EngineInterface
     /**
      * Renders a template.
      *
-     * @param string|TemplateReferenceInterface $name       A template name or a TemplateReferenceInterface instance
-     * @param array                             $parameters An array of parameters to pass to the template
+     * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
+     * @param array $parameters An array of parameters to pass to the template
+     *
+     * @throws RuntimeException if the template cannot be rendered
      *
      * @return string
-     *
-     * @throws \RuntimeException if the template cannot be rendered
      */
     public function render($name, array $parameters = []);
 
@@ -47,9 +51,9 @@ interface EngineInterface
      *
      * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
      *
-     * @return bool
+     * @throws RuntimeException if the engine cannot handle the template name
      *
-     * @throws \RuntimeException if the engine cannot handle the template name
+     * @return bool
      */
     public function exists($name);
 

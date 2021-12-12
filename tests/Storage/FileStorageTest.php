@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,17 +13,21 @@
 
 namespace Hype\Tests\Storage;
 
-use PHPUnit\Framework\TestCase;
 use Hype\Storage\FileStorage;
 use Hype\Storage\Storage;
+use PHPUnit\Framework\TestCase;
 
 class FileStorageTest extends TestCase
 {
     public function testGetContent()
     {
         $storage = new FileStorage('foo');
-        $this->assertInstanceOf(Storage::class, $storage, 'FileStorage is an instance of Storage');
-        $storage = new FileStorage(__DIR__.'/../Fixtures/templates/foo.php');
-        $this->assertEquals('<?php echo $foo ?>'."\n", $storage->getContent(), '->getContent() returns the content of the template');
+        static::assertInstanceOf(Storage::class, $storage, 'FileStorage is an instance of Storage');
+        $storage = new FileStorage(__DIR__ . '/../Fixtures/templates/foo.php');
+        static::assertEquals('<?php
+
+declare(strict_types=1);
+
+echo $foo;' . "\n", $storage->getContent(), '->getContent() returns the content of the template');
     }
 }

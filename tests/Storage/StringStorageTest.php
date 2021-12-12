@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,17 +13,17 @@
 
 namespace Hype\Tests\Storage;
 
-use PHPUnit\Framework\TestCase;
 use Hype\Storage\Storage;
 use Hype\Storage\StringStorage;
+use PHPUnit\Framework\TestCase;
 
 class StringStorageTest extends TestCase
 {
     public function testGetContent()
     {
         $storage = new StringStorage('foo');
-        $this->assertInstanceOf(Storage::class, $storage, 'StringStorage is an instance of Storage');
+        static::assertInstanceOf(Storage::class, $storage, 'StringStorage is an instance of Storage');
         $storage = new StringStorage('foo');
-        $this->assertEquals('foo', $storage->getContent(), '->getContent() returns the content of the template');
+        static::assertEquals('foo', $storage->getContent(), '->getContent() returns the content of the template');
     }
 }

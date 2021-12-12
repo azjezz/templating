@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,9 +13,9 @@
 
 namespace Hype\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Hype\TemplateNameParser;
 use Hype\TemplateReference;
+use PHPUnit\Framework\TestCase;
 
 class TemplateNameParserTest extends TestCase
 {
@@ -36,8 +38,8 @@ class TemplateNameParserTest extends TestCase
     {
         $template = $this->parser->parse($name);
 
-        $this->assertEquals($template->getLogicalName(), $ref->getLogicalName());
-        $this->assertEquals($template->getLogicalName(), $name);
+        static::assertEquals($template->getLogicalName(), $ref->getLogicalName());
+        static::assertEquals($template->getLogicalName(), $name);
     }
 
     public function getLogicalNameToTemplateProvider()

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<psalm errorLevel="1" forbidEcho="true" strictBinaryOperands="true" phpVersion="8.1" allowStringToStandInForClass="true" rememberPropertyAssignmentsAfterCall="false" checkForThrowsDocblock="true" checkForThrowsInGlobalScope="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" xsi:schemaLocation="https://getpsalm.org/schema/config ../vendor/vimeo/psalm/config.xsd" errorBaseline="psalm-baseline.xml">
+    <projectFiles>
+        <directory name="../src" />
+        <directory name="../tests" />
+    </projectFiles>
+
+    <issueHandlers>
+        <!-- Redundant expressions should not be considered errors. -->
+        <!-- Sometimes we want to enforce things at runtime, as well using static analysis -->
+        <RedundantConditionGivenDocblockType errorLevel="suppress" />
+        <RedundantCondition errorLevel="suppress" />
+        <RedundantCast errorLevel="suppress" />
+        <RedundantCastGivenDocblockType errorLevel="suppress" />
+
+        <StringIncrement errorLevel="suppress" />
+    </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psl\Psalm\Plugin" />
+    </plugins>
+</psalm>

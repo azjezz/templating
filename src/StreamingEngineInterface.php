@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -11,6 +13,9 @@
  */
 
 namespace Hype;
+
+use LogicException;
+use RuntimeException;
 
 /**
  * StreamingEngineInterface provides a method that knows how to stream a template.
@@ -24,11 +29,11 @@ interface StreamingEngineInterface
      *
      * The implementation should output the content directly to the client.
      *
-     * @param string|TemplateReferenceInterface $name       A template name or a TemplateReferenceInterface instance
-     * @param array                             $parameters An array of parameters to pass to the template
+     * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
+     * @param array $parameters An array of parameters to pass to the template
      *
-     * @throws \RuntimeException if the template cannot be rendered
-     * @throws \LogicException   if the template cannot be streamed
+     * @throws RuntimeException if the template cannot be rendered
+     * @throws LogicException if the template cannot be streamed
      */
     public function stream($name, array $parameters = []);
 }

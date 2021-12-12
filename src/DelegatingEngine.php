@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  * (c) Saif Eddin Gmati <azjezz@protonmail.com>
@@ -10,6 +12,9 @@
  */
 
 namespace Hype;
+
+use LogicException;
+use RuntimeException;
 
 /**
  * DelegatingEngine selects an engine for a given template.
@@ -34,7 +39,7 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function render($name, array $parameters = [])
     {
@@ -42,20 +47,20 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function stream($name, array $parameters = [])
     {
         $engine = $this->getEngine($name);
         if (!$engine instanceof StreamingEngineInterface) {
-            throw new \LogicException(sprintf('Template "%s" cannot be streamed as the engine supporting it does not implement StreamingEngineInterface.', $name));
+            throw new LogicException(sprintf('Template "%s" cannot be streamed as the engine supporting it does not implement StreamingEngineInterface.', $name));
         }
 
         $engine->stream($name, $parameters);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function exists($name)
     {
@@ -68,13 +73,13 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function supports($name)
     {
         try {
             $this->getEngine($name);
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return false;
         }
 
@@ -86,9 +91,9 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
      *
      * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
      *
-     * @return EngineInterface
+     * @throws RuntimeException if no engine able to work with the template is found
      *
-     * @throws \RuntimeException if no engine able to work with the template is found
+     * @return EngineInterface
      */
     public function getEngine($name)
     {
@@ -98,6 +103,6 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
             }
         }
 
-        throw new \RuntimeException(sprintf('No engine is able to work with the template "%s".', $name));
+        throw new RuntimeException(sprintf('No engine is able to work with the template "%s".', $name));
     }
 }
