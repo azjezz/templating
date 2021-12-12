@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Symfony package.
+ * This file is part of the Hype package.
  *
  * (c) Saif Eddin Gmati <azjezz@protonmail.com>
  * (c) Fabien Potencier <fabien@symfony.com>
@@ -27,7 +27,7 @@ final class TemplateReference implements TemplateReferenceInterface
     public function __construct(
         private readonly string $name,
         private readonly ?string $engine = null
-    ){
+    ) {
     }
 
     /**

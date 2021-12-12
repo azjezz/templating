@@ -2,6 +2,14 @@
 
 use Symfony\Component\Finder\Finder;
 
+$header_comment = 'This file is part of the Hype package.
+
+(c) Saif Eddin Gmati <azjezz@protonmail.com>
+(c) Fabien Potencier <fabien@symfony.com>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.';
+
 return (new PhpCsFixer\Config())
     ->setFinder(
         Finder::create()
@@ -71,5 +79,8 @@ return (new PhpCsFixer\Config())
         'phpdoc_trim_consecutive_blank_line_separation' => true,
         'no_empty_statement' => true,
         'semicolon_after_instruction' => true,
+        'header_comment' => [
+            'header' => $header_comment
+        ]
     ])
     ;

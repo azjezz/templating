@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Hype.
+ * This file is part of the Hype package.
  *
  * (c) Saif Eddin Gmati <azjezz@protonmail.com>
  * (c) Fabien Potencier <fabien@symfony.com>

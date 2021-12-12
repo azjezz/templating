@@ -12,4 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-echo $foo;
+namespace Hype\Internal;
+
+final class Context
+{
+}
