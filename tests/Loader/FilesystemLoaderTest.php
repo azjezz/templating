@@ -17,27 +17,26 @@ use Hype\Loader\FilesystemLoader;
 use Hype\Storage\FileStorage;
 use Hype\TemplateReference;
 use PHPUnit\Framework\TestCase;
+use Psl\Filesystem;
 use Psr\Log\LoggerInterface;
 
 class FilesystemLoaderTest extends TestCase
 {
-    protected static $fixturesPath;
+    protected static string $fixturesPath;
 
     public static function setUpBeforeClass(): void
     {
-        self::$fixturesPath = realpath(__DIR__ . '/../Fixtures/');
+        self::$fixturesPath = Filesystem\canonicalize(__DIR__ . '/../Fixtures/');
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $pathPattern = self::$fixturesPath . '/templates/%name%.%engine%';
-        $loader = new ProjectTemplateLoader2($pathPattern);
-        static::assertEquals([$pathPattern], $loader->getTemplatePathPatterns(), '__construct() takes a path as its second argument');
         $loader = new ProjectTemplateLoader2([$pathPattern]);
-        static::assertEquals([$pathPattern], $loader->getTemplatePathPatterns(), '__construct() takes an array of paths as its second argument');
+        static::assertEquals([$pathPattern], $loader->getTemplatePathPatterns(), '__construct() takes an array of paths as its first argument');
     }
 
-    public function testIsAbsolutePath()
+    public function testIsAbsolutePath(): void
     {
         static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('/foo.xml'), '->isAbsolutePath() returns true if the path is an absolute path');
         static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('c:\\\\foo.xml'), '->isAbsolutePath() returns true if the path is an absolute path');
@@ -47,16 +46,16 @@ class FilesystemLoaderTest extends TestCase
         static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('phar://server/foo.xml'), '->isAbsolutePath() returns true if the path is an absolute path');
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $pathPattern = self::$fixturesPath . '/templates/%name%';
         $path = self::$fixturesPath . '/templates';
-        $loader = new ProjectTemplateLoader2($pathPattern);
+        $loader = new ProjectTemplateLoader2([$pathPattern]);
         $storage = $loader->load(new TemplateReference($path . '/foo.php', 'php'));
         static::assertInstanceOf(FileStorage::class, $storage, '->load() returns a FileStorage if you pass an absolute path');
         static::assertEquals($path . '/foo.php', (string) $storage, '->load() returns a FileStorage pointing to the passed absolute path');
 
-        static::assertFalse($loader->load(new TemplateReference('bar', 'php')), '->load() returns false if the template is not found');
+        static::assertNull($loader->load(new TemplateReference('bar', 'php')), '->load() returns null if the template is not found');
 
         $storage = $loader->load(new TemplateReference('foo.php', 'php'));
         static::assertInstanceOf(FileStorage::class, $storage, '->load() returns a FileStorage if you pass a relative template that exists');
@@ -65,9 +64,9 @@ class FilesystemLoaderTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects(static::exactly(2))->method('debug');
 
-        $loader = new ProjectTemplateLoader2($pathPattern);
+        $loader = new ProjectTemplateLoader2([$pathPattern]);
         $loader->setLogger($logger);
-        static::assertFalse($loader->load(new TemplateReference('foo.xml', 'php')), '->load() returns false if the template does not exist for the given engine');
+        static::assertNull($loader->load(new TemplateReference('foo.xml', 'php')), '->load() returns null if the template does not exist for the given engine');
 
         $loader = new ProjectTemplateLoader2([self::$fixturesPath . '/null/%name%', $pathPattern]);
         $loader->setLogger($logger);
@@ -77,13 +76,13 @@ class FilesystemLoaderTest extends TestCase
 
 class ProjectTemplateLoader2 extends FilesystemLoader
 {
-    public function getTemplatePathPatterns()
+    public function getTemplatePathPatterns(): array
     {
         return $this->templatePathPatterns;
     }
 
-    public static function isAbsolutePath($path): bool
+    public static function isAbsolutePath(string $file): bool
     {
-        return parent::isAbsolutePath($path);
+        return parent::isAbsolutePath($file);
     }
 }

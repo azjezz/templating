@@ -14,82 +14,59 @@ declare(strict_types=1);
 
 namespace Hype;
 
-use InvalidArgumentException;
-
-use function array_key_exists;
-
 /**
  * Internal representation of a template.
  *
  * @author Victor Berchet <victor@suumit.com>
+ * @author Saif Eddin Gmati <azjezz@protonmail.com>
+ *
+ * @psalm-immutable
  */
-class TemplateReference implements TemplateReferenceInterface
+final class TemplateReference implements TemplateReferenceInterface
 {
-    protected $parameters;
-
-    public function __construct(string $name = null, string $engine = null)
-    {
-        $this->parameters = [
-            'name' => $name,
-            'engine' => $engine,
-        ];
+    public function __construct(
+        private readonly string $name,
+        private readonly ?string $engine = null
+    ){
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @mutation-free
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLogicalName();
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @mutation-free
      */
-    public function set(string $name, string $value)
+    public function getPath(): string
     {
-        if (array_key_exists($name, $this->parameters)) {
-            $this->parameters[$name] = $value;
-        } else {
-            throw new InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
-        }
-
-        return $this;
+        return $this->getLogicalName();
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @mutation-free
      */
-    public function get(string $name)
+    public function getLogicalName(): string
     {
-        if (array_key_exists($name, $this->parameters)) {
-            return $this->parameters[$name];
-        }
-
-        throw new InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
+        return $this->name;
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @mutation-free
      */
-    public function all()
+    public function getEngineName(): ?string
     {
-        return $this->parameters;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPath()
-    {
-        return $this->parameters['name'];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getLogicalName()
-    {
-        return $this->parameters['name'];
+        return $this->engine;
     }
 }

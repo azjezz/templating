@@ -18,58 +18,55 @@ use Hype\Helper\SlotsHelper;
 use Hype\Loader\Loader;
 use Hype\Loader\LoaderInterface;
 use Hype\PhpEngine;
+use Hype\Storage\Storage;
 use Hype\Storage\StringStorage;
 use Hype\TemplateNameParser;
 use Hype\TemplateReference;
 use Hype\TemplateReferenceInterface;
+use Hype\Tests\Fixtures\SimpleHelper;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use stdClass;
+use Psl\Exception\InvariantViolationException;
 
 class PhpEngineTest extends TestCase
 {
-    protected $loader;
+    protected ProjectTemplateLoader $loader;
 
     protected function setUp(): void
     {
         $this->loader = new ProjectTemplateLoader();
     }
 
-    protected function tearDown(): void
-    {
-        $this->loader = null;
-    }
-
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
         static::assertEquals($this->loader, $engine->getLoader(), '__construct() takes a loader instance as its second first argument');
     }
 
-    public function testOffsetGet()
+    public function testOffsetGet(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
-        $engine->set($helper = new \Hype\Tests\Fixtures\SimpleHelper('bar'), 'foo');
+        $engine->set($helper = new SimpleHelper('bar'), 'foo');
         static::assertEquals($helper, $engine['foo'], '->offsetGet() returns the value of a helper');
 
         try {
             $engine['bar'];
             static::fail('->offsetGet() throws an InvalidArgumentException if the helper is not defined');
         } catch (Exception $e) {
-            static::assertInstanceOf(InvalidArgumentException::class, $e, '->offsetGet() throws an InvalidArgumentException if the helper is not defined');
-            static::assertEquals('The helper "bar" is not defined.', $e->getMessage(), '->offsetGet() throws an InvalidArgumentException if the helper is not defined');
+            static::assertInstanceOf(InvariantViolationException::class, $e, '->offsetGet() throws an InvariantViolationException if the helper is not defined');
+            static::assertEquals('The helper "bar" is not defined.', $e->getMessage(), '->offsetGet() throws an InvariantViolationException if the helper is not defined');
         }
     }
 
-    public function testGetSetHas()
+    public function testGetSetHas(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
-        $foo = new \Hype\Tests\Fixtures\SimpleHelper('foo');
+        $foo = new SimpleHelper('foo');
         $engine->set($foo);
         static::assertEquals($foo, $engine->get('foo'), '->set() sets a helper');
 
-        $engine[$foo] = 'bar';
+        $engine['bar'] = $foo;
         static::assertEquals($foo, $engine->get('bar'), '->set() takes an alias as a second argument');
 
         static::assertArrayHasKey('bar', $engine);
@@ -78,8 +75,8 @@ class PhpEngineTest extends TestCase
             $engine->get('foobar');
             static::fail('->get() throws an InvalidArgumentException if the helper is not defined');
         } catch (Exception $e) {
-            static::assertInstanceOf(InvalidArgumentException::class, $e, '->get() throws an InvalidArgumentException if the helper is not defined');
-            static::assertEquals('The helper "foobar" is not defined.', $e->getMessage(), '->get() throws an InvalidArgumentException if the helper is not defined');
+            static::assertInstanceOf(InvariantViolationException::class, $e, '->get() throws an InvariantViolationException if the helper is not defined');
+            static::assertEquals('The helper "foobar" is not defined.', $e->getMessage(), '->get() throws an InvariantViolationException if the helper is not defined');
         }
 
         static::assertArrayHasKey('bar', $engine);
@@ -87,10 +84,10 @@ class PhpEngineTest extends TestCase
         static::assertFalse($engine->has('foobar'), '->has() returns false if the helper does not exist');
     }
 
-    public function testUnsetHelper()
+    public function testUnsetHelper(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
-        $foo = new \Hype\Tests\Fixtures\SimpleHelper('foo');
+        $foo = new SimpleHelper('foo');
         $engine->set($foo);
 
         $this->expectException(LogicException::class);
@@ -98,7 +95,7 @@ class PhpEngineTest extends TestCase
         unset($engine['foo']);
     }
 
-    public function testExtendRender()
+    public function testExtendRender(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader, []);
         try {
@@ -110,20 +107,20 @@ class PhpEngineTest extends TestCase
         }
 
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader, [new SlotsHelper()]);
-        $engine->set(new \Hype\Tests\Fixtures\SimpleHelper('bar'));
+        $engine->set(new SimpleHelper('bar'));
         $this->loader->setTemplate('foo.php', '<?php $this->extend("layout.php"); echo $this[\'foo\'].$foo ?>');
         $this->loader->setTemplate('layout.php', '-<?php echo $this[\'slots\']->get("_content") ?>-');
         static::assertEquals('-barfoo-', $engine->render('foo.php', ['foo' => 'foo']), '->render() uses the decorator to decorate the template');
 
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader, [new SlotsHelper()]);
-        $engine->set(new \Hype\Tests\Fixtures\SimpleHelper('bar'));
+        $engine->set(new SimpleHelper('bar'));
         $this->loader->setTemplate('bar.php', 'bar');
         $this->loader->setTemplate('foo.php', '<?php $this->extend("layout.php"); echo $foo ?>');
         $this->loader->setTemplate('layout.php', '<?php echo $this->render("bar.php") ?>-<?php echo $this[\'slots\']->get("_content") ?>-');
         static::assertEquals('bar-foo-', $engine->render('foo.php', ['foo' => 'foo', 'bar' => 'bar']), '->render() supports render() calls in templates');
     }
 
-    public function testRenderParameter()
+    public function testRenderParameter(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
         $this->loader->setTemplate('foo.php', '<?php echo $template . $parameters ?>');
@@ -133,7 +130,7 @@ class PhpEngineTest extends TestCase
     /**
      * @dataProvider forbiddenParameterNames
      */
-    public function testRenderForbiddenParameter($name)
+    public function testRenderForbiddenParameter($name): void
     {
         $this->expectException(InvalidArgumentException::class);
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
@@ -141,7 +138,7 @@ class PhpEngineTest extends TestCase
         $engine->render('foo.php', [$name => 'foo']);
     }
 
-    public function forbiddenParameterNames()
+    public function forbiddenParameterNames(): array
     {
         return [
             ['this'],
@@ -149,15 +146,13 @@ class PhpEngineTest extends TestCase
         ];
     }
 
-    public function testEscape()
+    public function testEscape(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
         static::assertEquals('&lt;br /&gt;', $engine->escape('<br />'), '->escape() escapes strings');
-        $foo = new stdClass();
-        static::assertEquals($foo, $engine->escape($foo), '->escape() does nothing on non strings');
     }
 
-    public function testGetSetCharset()
+    public function testGetSetCharset(): void
     {
         $helper = new SlotsHelper();
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader, [$helper]);
@@ -169,7 +164,7 @@ class PhpEngineTest extends TestCase
         static::assertEquals('ISO-8859-1', $helper->getCharset(), 'EngineInterface::setCharset() changes the default charset of helper');
     }
 
-    public function testGlobalVariables()
+    public function testGlobalVariables(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
         $engine->addGlobal('global_variable', 'lorem ipsum');
@@ -179,7 +174,7 @@ class PhpEngineTest extends TestCase
         ], $engine->getGlobals());
     }
 
-    public function testGlobalsGetPassedToTemplate()
+    public function testGlobalsGetPassedToTemplate(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
         $engine->addGlobal('global', 'global variable');
@@ -191,7 +186,7 @@ class PhpEngineTest extends TestCase
         static::assertEquals('overwritten', $engine->render('global.php', ['global' => 'overwritten']));
     }
 
-    public function testGetLoader()
+    public function testGetLoader(): void
     {
         $engine = new ProjectTemplateEngine(new TemplateNameParser(), $this->loader);
 
@@ -199,7 +194,7 @@ class PhpEngineTest extends TestCase
     }
 }
 
-class ProjectTemplateEngine extends PhpEngine
+final class ProjectTemplateEngine extends PhpEngine
 {
     public function getLoader(): LoaderInterface
     {
@@ -207,23 +202,26 @@ class ProjectTemplateEngine extends PhpEngine
     }
 }
 
-class ProjectTemplateLoader extends Loader
+final class ProjectTemplateLoader extends Loader
 {
-    public $templates = [];
+    /**
+     * @var array<string, TemplateReference>
+     */
+    public array $templates = [];
 
-    public function setTemplate($name, $content)
+    public function setTemplate(string $name, string $content): void
     {
         $template = new TemplateReference($name, 'php');
         $this->templates[$template->getLogicalName()] = $content;
     }
 
-    public function load(TemplateReferenceInterface $template)
+    public function load(TemplateReferenceInterface $template): ?Storage
     {
         if (isset($this->templates[$template->getLogicalName()])) {
             return new StringStorage($this->templates[$template->getLogicalName()]);
         }
 
-        return false;
+        return null;
     }
 
     public function isFresh(TemplateReferenceInterface $template, int $time): bool

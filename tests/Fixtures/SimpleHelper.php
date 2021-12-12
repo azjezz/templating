@@ -15,9 +15,9 @@ namespace Hype\Tests\Fixtures;
 
 use Hype\Helper\Helper;
 
-class SimpleHelper extends Helper
+final class SimpleHelper extends Helper
 {
-    protected $value = '';
+    protected string $value = '';
 
     public function __construct($value)
     {

@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace Hype\Tests\Loader;
 
 use Hype\Loader\Loader;
+use Hype\Storage\Storage;
 use Hype\TemplateReferenceInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-class LoaderTest extends TestCase
+final class LoaderTest extends TestCase
 {
-    public function testGetSetLogger()
+    public function testGetSetLogger(): void
     {
         $loader = new ProjectTemplateLoader4();
         $logger = $this->createMock(LoggerInterface::class);
@@ -29,13 +30,14 @@ class LoaderTest extends TestCase
     }
 }
 
-class ProjectTemplateLoader4 extends Loader
+final class ProjectTemplateLoader4 extends Loader
 {
-    public function load(TemplateReferenceInterface $template)
+    public function load(TemplateReferenceInterface $template): ?Storage
     {
+        return null;
     }
 
-    public function getLogger()
+    public function getLogger(): ?LoggerInterface
     {
         return $this->logger;
     }

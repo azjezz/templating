@@ -21,30 +21,24 @@ namespace Hype\Storage;
  */
 abstract class Storage
 {
-    protected $template;
-
     /**
      * @param string $template The template name
      */
-    public function __construct(string $template)
-    {
-        $this->template = $template;
+    public function __construct(
+        protected readonly string $template
+    ) {
     }
 
     /**
      * Returns the object string representation.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->template;
     }
 
     /**
      * Returns the content of the template.
-     *
-     * @return string
      */
-    abstract public function getContent();
+    abstract public function getContent(): string;
 }

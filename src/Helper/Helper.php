@@ -24,22 +24,20 @@ namespace Hype\Helper;
  */
 abstract class Helper implements HelperInterface
 {
-    protected $charset = 'UTF-8';
+    protected string $charset = 'UTF-8';
 
     /**
      * Sets the default charset.
      */
-    public function setCharset(string $charset)
+    public function setCharset(string $charset): void
     {
         $this->charset = $charset;
     }
 
     /**
      * Gets the default charset.
-     *
-     * @return string
      */
-    public function getCharset()
+    public function getCharset(): string
     {
         return $this->charset;
     }

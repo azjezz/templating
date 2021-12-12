@@ -20,58 +20,35 @@ use InvalidArgumentException;
  * Interface to be implemented by all templates.
  *
  * @author Victor Berchet <victor@suumit.com>
+ * @author Saif Eddin Gmati <azjezz@protonmail.com>
  */
 interface TemplateReferenceInterface
 {
     /**
-     * Gets the template parameters.
-     *
-     * @return array
-     */
-    public function all();
-
-    /**
-     * Sets a template parameter.
-     *
-     * @throws InvalidArgumentException if the parameter name is not supported
-     *
-     * @return $this
-     */
-    public function set(string $name, string $value);
-
-    /**
-     * Gets a template parameter.
-     *
-     * @throws InvalidArgumentException if the parameter name is not supported
-     *
-     * @return string
-     */
-    public function get(string $name);
-
-    /**
      * Returns the path to the template.
      *
      * By default, it just returns the template name.
-     *
-     * @return string
      */
-    public function getPath();
+    public function getPath(): string;
 
     /**
      * Returns the "logical" template name.
      *
      * The template name acts as a unique identifier for the template.
-     *
-     * @return string
      */
-    public function getLogicalName();
+    public function getLogicalName(): string;
+
+    /**
+     * Returns the "logical" engine name.
+     *
+     * The template name acts as a unique identifier for the engine used to render this template.
+     */
+    public function getEngineName(): ?string;
 
     /**
      * Returns the string representation as shortcut for getLogicalName().
      *
      * Alias of getLogicalName().
-     *
-     * @return string
      */
-    public function __toString();
+    public function __toString(): string;
 }

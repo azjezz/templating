@@ -24,24 +24,17 @@ use RuntimeException;
 class DelegatingEngine implements EngineInterface, StreamingEngineInterface
 {
     /**
-     * @var EngineInterface[]
+     * @param list<EngineInterface> $engines A list of EngineInterface instances to add
      */
-    protected $engines = [];
-
-    /**
-     * @param EngineInterface[] $engines An array of EngineInterface instances to add
-     */
-    public function __construct(array $engines = [])
-    {
-        foreach ($engines as $engine) {
-            $this->addEngine($engine);
-        }
+    public function __construct(
+        protected array $engines = []
+    ) {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function render($name, array $parameters = [])
+    public function render(TemplateReferenceInterface|string $name, array $parameters = []): string
     {
         return $this->getEngine($name)->render($name, $parameters);
     }
@@ -49,7 +42,7 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
     /**
      * {@inheritDoc}
      */
-    public function stream($name, array $parameters = [])
+    public function stream(TemplateReferenceInterface|string $name, array $parameters = []): void
     {
         $engine = $this->getEngine($name);
         if (!$engine instanceof StreamingEngineInterface) {
@@ -62,12 +55,12 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
     /**
      * {@inheritDoc}
      */
-    public function exists($name)
+    public function exists(TemplateReferenceInterface|string $name): bool
     {
         return $this->getEngine($name)->exists($name);
     }
 
-    public function addEngine(EngineInterface $engine)
+    public function addEngine(EngineInterface $engine): void
     {
         $this->engines[] = $engine;
     }
@@ -75,11 +68,11 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
     /**
      * {@inheritDoc}
      */
-    public function supports($name)
+    public function supports(TemplateReferenceInterface|string $name): bool
     {
         try {
             $this->getEngine($name);
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             return false;
         }
 
@@ -89,13 +82,9 @@ class DelegatingEngine implements EngineInterface, StreamingEngineInterface
     /**
      * Get an engine able to render the given template.
      *
-     * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
-     *
      * @throws RuntimeException if no engine able to work with the template is found
-     *
-     * @return EngineInterface
      */
-    public function getEngine($name)
+    public function getEngine(TemplateReferenceInterface|string $name): EngineInterface
     {
         foreach ($this->engines as $engine) {
             if ($engine->supports($name)) {

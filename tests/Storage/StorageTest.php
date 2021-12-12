@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 class StorageTest extends TestCase
 {
-    public function testMagicToString()
+    public function testMagicToString(): void
     {
         $storage = new TestStorage('foo');
         static::assertEquals('foo', (string) $storage, '__toString() returns the template name');

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Hype\Loader;
 
 use Hype\Storage\FileStorage;
+use Hype\Storage\Storage;
 use Hype\TemplateReferenceInterface;
 
 use function strlen;
@@ -28,20 +29,18 @@ use const PHP_URL_SCHEME;
  */
 class FilesystemLoader extends Loader
 {
-    protected $templatePathPatterns;
-
     /**
-     * @param string|string[] $templatePathPatterns An array of path patterns to look for templates
+     * @param list<string> $templatePathPatterns A list of path patterns to look for templates
      */
-    public function __construct($templatePathPatterns)
-    {
-        $this->templatePathPatterns = (array)$templatePathPatterns;
+    public function __construct(
+        protected array $templatePathPatterns
+    ) {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isFresh(TemplateReferenceInterface $template, int $time)
+    public function isFresh(TemplateReferenceInterface $template, int $time): bool
     {
         if (false === $storage = $this->load($template)) {
             return false;
@@ -53,16 +52,16 @@ class FilesystemLoader extends Loader
     /**
      * {@inheritDoc}
      */
-    public function load(TemplateReferenceInterface $template)
+    public function load(TemplateReferenceInterface $template): ?Storage
     {
-        $file = $template->get('name');
+        $file = $template->getPath();
 
         if (self::isAbsolutePath($file) && is_file($file)) {
             return new FileStorage($file);
         }
 
         $replacements = [];
-        foreach ($template->all() as $key => $value) {
+        foreach (['name' => $template->getLogicalName(), 'engine' => $template->getEngineName()] as $key => $value) {
             $replacement_key = '%' . $key . '%';
             $replacements[$replacement_key] = $value;
         }
@@ -70,9 +69,7 @@ class FilesystemLoader extends Loader
         $fileFailures = [];
         foreach ($this->templatePathPatterns as $templatePathPattern) {
             if (is_file($file = strtr($templatePathPattern, $replacements)) && is_readable($file)) {
-                if (null !== $this->logger) {
-                    $this->logger->debug('Loaded template file.', ['file' => $file]);
-                }
+                $this->logger?->debug('Loaded template file.', ['file' => $file]);
 
                 return new FileStorage($file);
             }
@@ -84,26 +81,22 @@ class FilesystemLoader extends Loader
 
         // only log failures if no template could be loaded at all
         foreach ($fileFailures as $file) {
-            if (null !== $this->logger) {
-                $this->logger->debug('Failed loading template file.', ['file' => $file]);
-            }
+            $this->logger?->debug('Failed loading template file.', ['file' => $file]);
         }
 
-        return false;
+        return null;
     }
 
     /**
      * Returns true if the file is an existing absolute path.
-     *
-     * @return bool
      */
-    protected static function isAbsolutePath(string $file)
+    protected static function isAbsolutePath(string $file): bool
     {
         if ('/' === $file[0] || '\\' === $file[0]) {
             return true;
         }
 
-        if (strlen($file) > 3 && ctype_alpha($file[0]) && ':' === $file[1] && ('\\' === $file[2] || '/' === $file[2])) {
+        if (strlen($file) > 3 && ':' === $file[1] && ('\\' === $file[2] || '/' === $file[2]) && ctype_alpha($file[0])) {
             return true;
         }
 

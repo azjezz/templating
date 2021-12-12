@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Hype\Loader;
 
 use Hype\Storage\FileStorage;
+use Hype\Storage\Storage;
 use Hype\TemplateReferenceInterface;
 use RuntimeException;
 
@@ -31,38 +32,33 @@ use const DIRECTORY_SEPARATOR;
  */
 class CacheLoader extends Loader
 {
-    protected $loader;
-    protected $dir;
-
     /**
-     * @param string $dir The directory where to store the cache files
+     * @param string $directory The directory where to store the cache files
      */
-    public function __construct(LoaderInterface $loader, string $dir)
-    {
-        $this->loader = $loader;
-        $this->dir = $dir;
+    public function __construct(
+        protected LoaderInterface $loader,
+        protected string $directory
+    ) {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function load(TemplateReferenceInterface $template)
+    public function load(TemplateReferenceInterface $template): ?Storage
     {
         $key = hash('sha256', $template->getLogicalName());
-        $dir = $this->dir . DIRECTORY_SEPARATOR . substr($key, 0, 2);
+        $dir = $this->directory . DIRECTORY_SEPARATOR . substr($key, 0, 2);
         $file = substr($key, 2) . '.tpl';
         $path = $dir . DIRECTORY_SEPARATOR . $file;
 
         if (is_file($path)) {
-            if (null !== $this->logger) {
-                $this->logger->debug('Fetching template from cache.', ['name' => $template->get('name')]);
-            }
+            $this->logger?->debug('Fetching template from cache.', ['name' => $template->getLogicalName()]);
 
             return new FileStorage($path);
         }
 
-        if (false === $storage = $this->loader->load($template)) {
-            return false;
+        if (null === $storage = $this->loader->load($template)) {
+            return null;
         }
 
         $content = $storage->getContent();
@@ -73,9 +69,7 @@ class CacheLoader extends Loader
 
         file_put_contents($path, $content);
 
-        if (null !== $this->logger) {
-            $this->logger->debug('Storing template in cache.', ['name' => $template->get('name')]);
-        }
+        $this->logger?->debug('Storing template in cache.', ['name' => $template->getLogicalName()]);
 
         return new FileStorage($path);
     }
@@ -83,7 +77,7 @@ class CacheLoader extends Loader
     /**
      * {@inheritDoc}
      */
-    public function isFresh(TemplateReferenceInterface $template, int $time)
+    public function isFresh(TemplateReferenceInterface $template, int $time): bool
     {
         return $this->loader->isFresh($template, $time);
     }

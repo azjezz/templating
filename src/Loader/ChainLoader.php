@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Hype\Loader;
 
+use Hype\Storage\Storage;
 use Hype\TemplateReferenceInterface;
 
 /**
@@ -23,7 +24,7 @@ use Hype\TemplateReferenceInterface;
  */
 class ChainLoader extends Loader
 {
-    protected $loaders = [];
+    protected array $loaders = [];
 
     /**
      * @param LoaderInterface[] $loaders
@@ -35,7 +36,7 @@ class ChainLoader extends Loader
         }
     }
 
-    public function addLoader(LoaderInterface $loader)
+    public function addLoader(LoaderInterface $loader): void
     {
         $this->loaders[] = $loader;
     }
@@ -43,21 +44,21 @@ class ChainLoader extends Loader
     /**
      * {@inheritDoc}
      */
-    public function load(TemplateReferenceInterface $template)
+    public function load(TemplateReferenceInterface $template): ?Storage
     {
         foreach ($this->loaders as $loader) {
-            if (false !== $storage = $loader->load($template)) {
+            if (null !== $storage = $loader->load($template)) {
                 return $storage;
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isFresh(TemplateReferenceInterface $template, int $time)
+    public function isFresh(TemplateReferenceInterface $template, int $time): bool
     {
         foreach ($this->loaders as $loader) {
             return $loader->isFresh($template, $time);

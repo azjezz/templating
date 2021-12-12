@@ -15,13 +15,12 @@ namespace Hype\Tests\Helper;
 
 use Exception;
 use Hype\Helper\SlotsHelper;
-use InvalidArgumentException;
-use LogicException;
 use PHPUnit\Framework\TestCase;
+use Psl\Exception\InvariantViolationException;
 
-class SlotsHelperTest extends TestCase
+final class SlotsHelperTest extends TestCase
 {
-    public function testHasGetSet()
+    public function testHasGetSet(): void
     {
         $helper = new SlotsHelper();
         $helper->set('foo', 'bar');
@@ -32,7 +31,7 @@ class SlotsHelperTest extends TestCase
         static::assertFalse($helper->has('bar'), '->has() returns false if the slot does not exist');
     }
 
-    public function testOutput()
+    public function testOutput(): void
     {
         $helper = new SlotsHelper();
         $helper->set('foo', 'bar');
@@ -55,7 +54,7 @@ class SlotsHelperTest extends TestCase
         static::assertFalse($ret, '->output() returns false if the slot does not exist');
     }
 
-    public function testStartStop()
+    public function testStartStop(): void
     {
         $helper = new SlotsHelper();
         $helper->start('bar');
@@ -71,7 +70,7 @@ class SlotsHelperTest extends TestCase
             static::fail('->start() throws an InvalidArgumentException if a slot with the same name is already started');
         } catch (Exception $e) {
             $helper->stop();
-            static::assertInstanceOf(InvalidArgumentException::class, $e, '->start() throws an InvalidArgumentException if a slot with the same name is already started');
+            static::assertInstanceOf(InvariantViolationException::class, $e, '->start() throws an InvalidArgumentException if a slot with the same name is already started');
             static::assertEquals('A slot named "bar" is already started.', $e->getMessage(), '->start() throws an InvalidArgumentException if a slot with the same name is already started');
         }
 
@@ -79,7 +78,7 @@ class SlotsHelperTest extends TestCase
             $helper->stop();
             static::fail('->stop() throws an LogicException if no slot is started');
         } catch (Exception $e) {
-            static::assertInstanceOf(LogicException::class, $e, '->stop() throws an LogicException if no slot is started');
+            static::assertInstanceOf(InvariantViolationException::class, $e, '->stop() throws an LogicException if no slot is started');
             static::assertEquals('No slot started.', $e->getMessage(), '->stop() throws an LogicException if no slot is started');
         }
     }

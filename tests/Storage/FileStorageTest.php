@@ -17,9 +17,9 @@ use Hype\Storage\FileStorage;
 use Hype\Storage\Storage;
 use PHPUnit\Framework\TestCase;
 
-class FileStorageTest extends TestCase
+final class FileStorageTest extends TestCase
 {
-    public function testGetContent()
+    public function testGetContent(): void
     {
         $storage = new FileStorage('foo');
         static::assertInstanceOf(Storage::class, $storage, 'FileStorage is an instance of Storage');

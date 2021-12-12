@@ -14,10 +14,8 @@ declare(strict_types=1);
 
 namespace Hype\Helper;
 
-use InvalidArgumentException;
-use LogicException;
-
-use function in_array;
+use Psl;
+use Psl\Iter;
 
 /**
  * SlotsHelper manages template slots.
@@ -26,8 +24,8 @@ use function in_array;
  */
 class SlotsHelper extends Helper
 {
-    protected $slots = [];
-    protected $openSlots = [];
+    protected array $slots = [];
+    protected array $openSlots = [];
 
     /**
      * Starts a new slot.
@@ -35,13 +33,11 @@ class SlotsHelper extends Helper
      * This method starts an output buffer that will be
      * closed when the stop() method is called.
      *
-     * @throws InvalidArgumentException if a slot with the same name is already started
+     * @throws Psl\Exception\InvariantViolationException if a slot with the same name is already started
      */
-    public function start(string $name)
+    public function start(string $name): void
     {
-        if (in_array($name, $this->openSlots, true)) {
-            throw new InvalidArgumentException(sprintf('A slot named "%s" is already started.', $name));
-        }
+        Psl\invariant(!Iter\contains($this->openSlots, $name), 'A slot named "%s" is already started.', $name);
 
         $this->openSlots[] = $name;
         $this->slots[$name] = '';
@@ -53,13 +49,11 @@ class SlotsHelper extends Helper
     /**
      * Stops a slot.
      *
-     * @throws LogicException if no slot has been started
+     * @throws Psl\Exception\InvariantViolationException if no slot has been started
      */
-    public function stop()
+    public function stop(): void
     {
-        if (!$this->openSlots) {
-            throw new LogicException('No slot started.');
-        }
+        Psl\invariant(!Iter\is_empty($this->openSlots), 'No slot started.');
 
         $name = array_pop($this->openSlots);
 
@@ -68,22 +62,18 @@ class SlotsHelper extends Helper
 
     /**
      * Returns true if the slot exists.
-     *
-     * @return bool
      */
-    public function has(string $name)
+    public function has(string $name): bool
     {
-        return isset($this->slots[$name]);
+        return Iter\contains_key($this->slots, $name);
     }
 
     /**
      * Gets the slot value.
      *
-     * @param bool|string $default The default slot content
-     *
-     * @return string
+     * @param string|null $default The default slot content
      */
-    public function get(string $name, $default = false)
+    public function get(string $name, ?string $default = null): ?string
     {
         return $this->slots[$name] ?? $default;
     }
@@ -91,7 +81,7 @@ class SlotsHelper extends Helper
     /**
      * Sets a slot value.
      */
-    public function set(string $name, string $content)
+    public function set(string $name, string $content): void
     {
         $this->slots[$name] = $content;
     }
@@ -99,14 +89,14 @@ class SlotsHelper extends Helper
     /**
      * Outputs a slot.
      *
-     * @param bool|string $default The default slot content
+     * @param string|null $default The default slot content
      *
      * @return bool true if the slot is defined or if a default content has been provided, false otherwise
      */
-    public function output(string $name, $default = false)
+    public function output(string $name, ?string $default = null): bool
     {
-        if (!isset($this->slots[$name])) {
-            if (false !== $default) {
+        if (!$this->has($name)) {
+            if (null !== $default) {
                 echo $default;
 
                 return true;
@@ -122,10 +112,8 @@ class SlotsHelper extends Helper
 
     /**
      * Returns the canonical name of this helper.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'slots';
     }

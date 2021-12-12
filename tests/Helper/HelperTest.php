@@ -16,9 +16,9 @@ namespace Hype\Tests\Helper;
 use Hype\Helper\Helper;
 use PHPUnit\Framework\TestCase;
 
-class HelperTest extends TestCase
+final class HelperTest extends TestCase
 {
-    public function testGetSetCharset()
+    public function testGetSetCharset(): void
     {
         $helper = new ProjectTemplateHelper();
         $helper->setCharset('ISO-8859-1');

@@ -19,22 +19,17 @@ use PHPUnit\Framework\TestCase;
 
 class TemplateNameParserTest extends TestCase
 {
-    protected $parser;
+    protected TemplateNameParser $parser;
 
     protected function setUp(): void
     {
         $this->parser = new TemplateNameParser();
     }
 
-    protected function tearDown(): void
-    {
-        $this->parser = null;
-    }
-
     /**
      * @dataProvider getLogicalNameToTemplateProvider
      */
-    public function testParse($name, $ref)
+    public function testParse(string $name, TemplateReference $ref): void
     {
         $template = $this->parser->parse($name);
 
@@ -42,7 +37,10 @@ class TemplateNameParserTest extends TestCase
         static::assertEquals($template->getLogicalName(), $name);
     }
 
-    public function getLogicalNameToTemplateProvider()
+    /**
+     * @return list<array{0: string, 1: TemplateReference}>
+     */
+    public function getLogicalNameToTemplateProvider(): array
     {
         return [
             ['/path/to/section/name.engine', new TemplateReference('/path/to/section/name.engine', 'engine')],
