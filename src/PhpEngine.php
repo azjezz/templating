@@ -3,19 +3,20 @@
 /*
  * This file is part of the Symfony package.
  *
+ * (c) Saif Eddin Gmati <azjezz@protonmail.com>
  * (c) Fabien Potencier <fabien@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating;
+namespace Hype;
 
-use Symfony\Component\Templating\Helper\HelperInterface;
-use Symfony\Component\Templating\Loader\LoaderInterface;
-use Symfony\Component\Templating\Storage\FileStorage;
-use Symfony\Component\Templating\Storage\Storage;
-use Symfony\Component\Templating\Storage\StringStorage;
+use Hype\Helper\HelperInterface;
+use Hype\Loader\LoaderInterface;
+use Hype\Storage\FileStorage;
+use Hype\Storage\Storage;
+use Hype\Storage\StringStorage;
 
 /**
  * PhpEngine is an engine able to render PHP templates.

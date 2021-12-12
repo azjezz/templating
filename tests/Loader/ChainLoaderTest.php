@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Loader;
+namespace Hype\Tests\Loader;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Templating\Loader\ChainLoader;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
-use Symfony\Component\Templating\TemplateReference;
+use Hype\Loader\ChainLoader;
+use Hype\Loader\FilesystemLoader;
+use Hype\TemplateReference;
 
 class ChainLoaderTest extends TestCase
 {
@@ -47,7 +47,7 @@ class ChainLoaderTest extends TestCase
         $this->assertFalse($loader->load(new TemplateReference('bar', 'php')), '->load() returns false if the template is not found');
         $this->assertFalse($loader->load(new TemplateReference('foo', 'php')), '->load() returns false if the template does not exist for the given renderer');
         $this->assertInstanceOf(
-            'Symfony\Component\Templating\Storage\FileStorage',
+            'Hype\Storage\FileStorage',
             $loader->load(new TemplateReference('foo.php', 'php')),
             '->load() returns a FileStorage if the template exists'
         );

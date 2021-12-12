@@ -3,16 +3,17 @@
 /*
  * This file is part of the Symfony package.
  *
+ * (c) Saif Eddin Gmati <azjezz@protonmail.com>
  * (c) Fabien Potencier <fabien@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Loader;
+namespace Hype\Loader;
 
-use Symfony\Component\Templating\Storage\Storage;
-use Symfony\Component\Templating\TemplateReferenceInterface;
+use Hype\Storage\Storage;
+use Hype\TemplateReferenceInterface;
 
 /**
  * LoaderInterface is the interface all loaders must implement.

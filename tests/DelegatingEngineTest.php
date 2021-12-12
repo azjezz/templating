@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests;
+namespace Hype\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Templating\DelegatingEngine;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Templating\StreamingEngineInterface;
+use Hype\DelegatingEngine;
+use Hype\EngineInterface;
+use Hype\StreamingEngineInterface;
 
 class DelegatingEngineTest extends TestCase
 {

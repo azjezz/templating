@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Loader;
+namespace Hype\Tests\Loader;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Templating\Loader\CacheLoader;
-use Symfony\Component\Templating\Loader\Loader;
-use Symfony\Component\Templating\Storage\StringStorage;
-use Symfony\Component\Templating\TemplateReference;
-use Symfony\Component\Templating\TemplateReferenceInterface;
+use Hype\Loader\CacheLoader;
+use Hype\Loader\Loader;
+use Hype\Storage\StringStorage;
+use Hype\TemplateReference;
+use Hype\TemplateReferenceInterface;
 
 class CacheLoaderTest extends TestCase
 {

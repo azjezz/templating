@@ -1,15 +1,16 @@
 <?php
 
 /*
- * This file is part of the Symfony package.
+ * This file is part of the Hype.
  *
+ * (c) Saif Eddin Gmati <azjezz@protonmail.com>
  * (c) Fabien Potencier <fabien@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Helper;
+namespace Hype\Helper;
 
 /**
  * HelperInterface is the interface all helpers must implement.

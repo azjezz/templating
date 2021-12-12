@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Fixtures;
+namespace Hype\Tests\Fixtures;
 
-use Symfony\Component\Templating\Helper\Helper;
+use Hype\Helper\Helper;
 
 class SimpleHelper extends Helper
 {

@@ -13,18 +13,14 @@
     </php>
 
     <testsuites>
-        <testsuite name="Symfony Templating Component Test Suite">
-            <directory>./Tests/</directory>
+        <testsuite name="Hype Test Suite">
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
+            <directory>./src</directory>
         </whitelist>
     </filter>
 </phpunit>

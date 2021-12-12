@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Loader;
+namespace Hype\Tests\Loader;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Templating\Loader\Loader;
-use Symfony\Component\Templating\TemplateReferenceInterface;
+use Hype\Loader\Loader;
+use Hype\TemplateReferenceInterface;
 
 class LoaderTest extends TestCase
 {

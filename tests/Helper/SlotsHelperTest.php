@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Helper;
+namespace Hype\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Templating\Helper\SlotsHelper;
+use Hype\Helper\SlotsHelper;
 
 class SlotsHelperTest extends TestCase
 {

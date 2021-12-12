@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Loader;
+namespace Hype\Tests\Loader;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
-use Symfony\Component\Templating\Storage\FileStorage;
-use Symfony\Component\Templating\TemplateReference;
+use Hype\Loader\FilesystemLoader;
+use Hype\Storage\FileStorage;
+use Hype\TemplateReference;
 
 class FilesystemLoaderTest extends TestCase
 {

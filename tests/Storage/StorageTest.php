@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Storage;
+namespace Hype\Tests\Storage;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Templating\Storage\Storage;
+use Hype\Storage\Storage;
 
 class StorageTest extends TestCase
 {

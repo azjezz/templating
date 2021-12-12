@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests;
+namespace Hype\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Templating\TemplateNameParser;
-use Symfony\Component\Templating\TemplateReference;
+use Hype\TemplateNameParser;
+use Hype\TemplateReference;
 
 class TemplateNameParserTest extends TestCase
 {

@@ -1,11 +1,15 @@
 {
-    "name": "symfony/templating",
+    "name": "azjezz/hype",
     "type": "library",
     "description": "Provides all the tools needed to build any kind of template system",
     "keywords": [],
-    "homepage": "https://symfony.com",
+    "homepage": "https://github.com/azjezz/hype",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Saif Eddin Gmati",
+            "email": "azjezz@protonmail.com"
+        },
         {
             "name": "Fabien Potencier",
             "email": "fabien@symfony.com"
@@ -17,7 +21,7 @@
     ],
     "require": {
         "php": ">=7.2.5",
-        "symfony/polyfill-ctype": "~1.8"
+        "ext-ctype": "*"
     },
     "require-dev": {
         "psr/log": "^1|^2|^3"
@@ -27,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symfony\\Component\\Templating\\": "src/"
+            "Hype\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symfony\\Component\\Templating\\Tests\\": "tests/"
+            "Hype\\": "tests/"
         }
     },
     "minimum-stability": "dev"

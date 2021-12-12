@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Templating\Tests\Helper;
+namespace Hype\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Templating\Helper\Helper;
+use Hype\Helper\Helper;
 
 class HelperTest extends TestCase
 {
