@@ -6,6 +6,23 @@
       <code>$name</code>
     </ImplicitToStringCast>
   </file>
+  <file src="../src/Escaper.php">
+    <MissingThrowsDocblock occurrences="1">
+      <code>Psl\invariant_violation('No escaper is configured for the "%s" context.', $context)</code>
+    </MissingThrowsDocblock>
+  </file>
+  <file src="../src/Escaper/JavaScriptEscaper.php">
+    <MissingThrowsDocblock occurrences="1">
+      <code>Regex\replace_with($content, '#[^\p{L}\p{N} ]#u', $callback)</code>
+    </MissingThrowsDocblock>
+    <MixedArgument occurrences="2">
+      <code>$char</code>
+      <code>$char</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$char</code>
+    </MixedAssignment>
+  </file>
   <file src="../src/Helper/SlotsHelper.php">
     <ForbiddenEcho occurrences="1">
       <code>echo $default;</code>
@@ -25,6 +42,26 @@
     <PossiblyFalseArgument occurrences="1">
       <code>PHP_VERSION_ID &gt;= 80000 ? false : 0</code>
     </PossiblyFalseArgument>
+  </file>
+  <file src="../src/Internal/PHPEngineRenderingContext.php">
+    <InvalidDocblockParamName occurrences="1">
+      <code>$parametersa</code>
+    </InvalidDocblockParamName>
+    <MissingThrowsDocblock occurrences="4">
+      <code>Psl\invariant(!Iter\contains_key($this-&gt;parameters, 'this'), 'Invalid parameter (this).')</code>
+      <code>Psl\invariant(!Iter\contains_key($this-&gt;parameters, 'view'), 'Invalid parameter (view).')</code>
+      <code>render</code>
+      <code>throw new RuntimeException(sprintf('The template "%s" cannot be rendered.', $__template_storage__-&gt;__toString()));</code>
+    </MissingThrowsDocblock>
+    <MixedOperand occurrences="1">
+      <code>$__template_storage__</code>
+    </MixedOperand>
+    <UnresolvableInclude occurrences="1">
+      <code>require $__template_storage__</code>
+    </UnresolvableInclude>
+    <UnusedVariable occurrences="1">
+      <code>$view</code>
+    </UnusedVariable>
   </file>
   <file src="../src/Loader/CacheLoader.php">
     <MissingThrowsDocblock occurrences="1">
@@ -55,351 +92,28 @@
       <code>false === $storage = $this-&gt;load($template)</code>
     </TypeDoesNotContainType>
   </file>
-  <file src="../src/PhpEngine.php">
-    <ImplicitToStringCast occurrences="2">
-      <code>$template</code>
-      <code>$this-&gt;parser-&gt;parse($name)</code>
-    </ImplicitToStringCast>
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <MissingThrowsDocblock occurrences="2">
-      <code>get</code>
-      <code>getEscaper</code>
-    </MissingThrowsDocblock>
-    <MixedArgument occurrences="4">
-      <code>$char</code>
-      <code>$char</code>
-      <code>$escaper</code>
-      <code>array_pop($this-&gt;stack) ?: ''</code>
+  <file src="../src/PHPEngine.php">
+    <MixedArgument occurrences="3">
+      <code>$stack</code>
+      <code>$stack</code>
+      <code>array_pop($stack) ?: ''</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
-      <code>$context</code>
+      <code>$helpers</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>self::$escaperCache[$context][$value]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>self::$escaperCache[$context][$value]</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="3">
-      <code>$char</code>
-      <code>$escaper</code>
-      <code>self::$escaperCache[$context][$value]</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="3">
-      <code>Storage</code>
-      <code>callable</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedOperand occurrences="1">
-      <code>$__evaluated_template__</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="3">
-      <code>$this-&gt;cache[$key]</code>
-      <code>$this-&gt;escapers[$context]</code>
-      <code>self::$escaperCache[$context][$value]</code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>$this-&gt;globals</code>
-      <code>array&lt;string, mixed&gt;</code>
-    </MixedReturnTypeCoercion>
-    <NullableReturnStatement occurrences="1">
-      <code>$content</code>
-    </NullableReturnStatement>
-    <PossiblyInvalidArgument occurrences="1">
+    <NullPropertyFetch occurrences="1">
+      <code>$context-&gt;stack</code>
+    </NullPropertyFetch>
+    <PossiblyInvalidArgument occurrences="2">
       <code>$name</code>
+      <code>$stack</code>
     </PossiblyInvalidArgument>
-    <PossiblyNullArgument occurrences="1">
-      <code>$content</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$current</code>
-    </PropertyNotSetInConstructor>
-    <TypeDoesNotContainType occurrences="1">
-      <code>false === $content = $this-&gt;evaluate($storage, $parameters)</code>
-    </TypeDoesNotContainType>
-    <UnnecessaryVarAnnotation occurrences="1">
-      <code>string</code>
-    </UnnecessaryVarAnnotation>
-    <UnresolvableInclude occurrences="1">
-      <code>require $__evaluated_template__</code>
-    </UnresolvableInclude>
-    <UnusedVariable occurrences="1">
-      <code>$view</code>
-    </UnusedVariable>
-  </file>
-  <file src="../tests/DelegatingEngineTest.php">
-    <AssignmentToVoid occurrences="1">
-      <code>$result</code>
-    </AssignmentToVoid>
-    <InvalidArgument occurrences="1">
-      <code>[$streamingEngine]</code>
-    </InvalidArgument>
-    <MissingThrowsDocblock occurrences="19">
-      <code>exists</code>
-      <code>getEngine</code>
-      <code>getEngine</code>
-      <code>method</code>
-      <code>method</code>
-      <code>render</code>
-      <code>render</code>
-      <code>static::assertFalse($delegatingEngine-&gt;supports('template.php'))</code>
-      <code>static::assertNull($result)</code>
-      <code>static::assertSame($secondEngine, $delegatingEngine-&gt;getEngine('template.php'))</code>
-      <code>static::assertSame('&lt;html /&gt;', $result)</code>
-      <code>static::assertTrue($delegatingEngine-&gt;exists('template.php'))</code>
-      <code>static::assertTrue($delegatingEngine-&gt;supports('template.php'))</code>
-      <code>stream</code>
-      <code>stream</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>with</code>
-      <code>with</code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall occurrences="8">
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>with</code>
-      <code>with</code>
-      <code>with</code>
-    </MixedMethodCall>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>DelegatingEngineTest</code>
-      <code>DelegatingEngineTest</code>
-    </PropertyNotSetInConstructor>
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>expects</code>
-      <code>expects</code>
-      <code>expects</code>
-    </UndefinedInterfaceMethod>
-    <UnusedVariable occurrences="1">
-      <code>$result</code>
-    </UnusedVariable>
-  </file>
-  <file src="../tests/Fixtures/SimpleHelper.php">
-    <MissingParamType occurrences="1">
-      <code>$value</code>
-    </MissingParamType>
-    <MixedAssignment occurrences="1">
-      <code>$this-&gt;value</code>
-    </MixedAssignment>
-  </file>
-  <file src="../tests/Fixtures/templates/foo.php">
-    <ForbiddenEcho occurrences="1">
-      <code>echo $foo;</code>
-    </ForbiddenEcho>
-    <MixedArgument occurrences="1">
-      <code>$foo</code>
-    </MixedArgument>
-    <UndefinedGlobalVariable occurrences="1">
-      <code>$foo</code>
-    </UndefinedGlobalVariable>
-  </file>
-  <file src="../tests/Helper/HelperTest.php">
-    <MissingThrowsDocblock occurrences="1">
-      <code>static::assertSame('ISO-8859-1', $helper-&gt;getCharset(), '-&gt;setCharset() sets the charset set related to this helper')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>HelperTest</code>
-      <code>HelperTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Helper/SlotsHelperTest.php">
-    <ForbiddenEcho occurrences="1">
-      <code>echo 'foo';</code>
-    </ForbiddenEcho>
-    <MissingThrowsDocblock occurrences="11">
-      <code>start</code>
-      <code>static::assertEquals('', $output, '-&gt;output() outputs nothing if the slot does not exist')</code>
-      <code>static::assertEquals('bar', $helper-&gt;get('bar', 'bar'), '-&gt;get() takes a default value to return if the slot does not exist')</code>
-      <code>static::assertEquals('bar', $helper-&gt;get('foo'), '-&gt;set() sets a slot value')</code>
-      <code>static::assertEquals('bar', $output, '-&gt;output() outputs the content of a slot')</code>
-      <code>static::assertEquals('bar', $output, '-&gt;output() takes a default value to return if the slot does not exist')</code>
-      <code>static::assertFalse($helper-&gt;has('bar'), '-&gt;has() returns false if the slot does not exist')</code>
-      <code>static::assertFalse($ret, '-&gt;output() returns false if the slot does not exist')</code>
-      <code>static::assertTrue($helper-&gt;has('foo'), '-&gt;has() returns true if the slot exists')</code>
-      <code>static::assertTrue($ret, '-&gt;output() returns true if the slot does not exist but a default value is provided')</code>
-      <code>static::assertTrue($ret, '-&gt;output() returns true if the slot exists')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>SlotsHelperTest</code>
-      <code>SlotsHelperTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Loader/CacheLoaderTest.php">
-    <InvalidOperand occurrences="1">
-      <code>PseudoRandom\int(111111, 999999)</code>
-    </InvalidOperand>
-    <MissingThrowsDocblock occurrences="10">
-      <code>Class\has_method($this::class, $method = 'get' . Str\Byte\capitalize($template-&gt;getLogicalName()) . 'Template')</code>
-      <code>Filesystem\create_directory($dir)</code>
-      <code>PseudoRandom\int(111111, 999999)</code>
-      <code>method</code>
-      <code>method</code>
-      <code>static::assertEquals(sys_get_temp_dir(), $loader-&gt;getDir(), '__construct() takes a directory where to store the cache as its second argument')</code>
-      <code>static::assertNull($loader-&gt;load(new TemplateReference('foo', 'php')), '-&gt;load() returns false if the embed loader is not able to load the template')</code>
-      <code>static::assertSame($loader-&gt;getLoader(), $varLoader, '__construct() takes a template loader as its first argument')</code>
-      <code>with</code>
-      <code>with</code>
-    </MissingThrowsDocblock>
-    <MixedArgument occurrences="1">
-      <code>$this-&gt;$method()</code>
-    </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>Filesystem\SEPARATOR</code>
-    </MixedOperand>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>CacheLoaderTest</code>
-      <code>CacheLoaderTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Loader/ChainLoaderTest.php">
-    <MissingThrowsDocblock occurrences="5">
-      <code>static::assertEquals([$this-&gt;loader1, $this-&gt;loader2], $loader-&gt;getLoaders(), '-&gt;addLoader() adds a template loader at the end of the loaders')</code>
-      <code>static::assertEquals([$this-&gt;loader1, $this-&gt;loader2], $loader-&gt;getLoaders(), '__construct() takes an array of template loaders as its second argument')</code>
-      <code>static::assertNull($loader-&gt;load(new TemplateReference('bar', 'php')), '-&gt;load() returns null if the template is not found')</code>
-      <code>static::assertNull($loader-&gt;load(new TemplateReference('foo', 'php')), '-&gt;load() returns null if the template does not exist for the given renderer')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="4">
-      <code>$loader1</code>
-      <code>$loader2</code>
-      <code>ChainLoaderTest</code>
-      <code>ChainLoaderTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Loader/FilesystemLoaderTest.php">
-    <MissingThrowsDocblock occurrences="14">
-      <code>method</code>
-      <code>static::assertEquals($path . '/foo.php', (string) $storage, '-&gt;load() returns a FileStorage pointing to the absolute path of the template')</code>
-      <code>static::assertEquals($path . '/foo.php', (string) $storage, '-&gt;load() returns a FileStorage pointing to the passed absolute path')</code>
-      <code>static::assertEquals([$pathPattern], $loader-&gt;getTemplatePathPatterns(), '__construct() takes an array of paths as its first argument')</code>
-      <code>static::assertInstanceOf(FileStorage::class, $storage, '-&gt;load() returns a FileStorage if you pass a relative template that exists')</code>
-      <code>static::assertInstanceOf(FileStorage::class, $storage, '-&gt;load() returns a FileStorage if you pass an absolute path')</code>
-      <code>static::assertNull($loader-&gt;load(new TemplateReference('bar', 'php')), '-&gt;load() returns null if the template is not found')</code>
-      <code>static::assertNull($loader-&gt;load(new TemplateReference('foo.xml', 'php')), '-&gt;load() returns null if the template does not exist for the given engine')</code>
-      <code>static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('/foo.xml'), '-&gt;isAbsolutePath() returns true if the path is an absolute path')</code>
-      <code>static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('\\server\\foo.xml'), '-&gt;isAbsolutePath() returns true if the path is an absolute path')</code>
-      <code>static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('c:/foo.xml'), '-&gt;isAbsolutePath() returns true if the path is an absolute path')</code>
-      <code>static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('c:\\\\foo.xml'), '-&gt;isAbsolutePath() returns true if the path is an absolute path')</code>
-      <code>static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('https://server/foo.xml'), '-&gt;isAbsolutePath() returns true if the path is an absolute path')</code>
-      <code>static::assertTrue(ProjectTemplateLoader2::isAbsolutePath('phar://server/foo.xml'), '-&gt;isAbsolutePath() returns true if the path is an absolute path')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>FilesystemLoaderTest</code>
-      <code>FilesystemLoaderTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Loader/LoaderTest.php">
-    <MissingThrowsDocblock occurrences="1">
-      <code>static::assertSame($logger, $loader-&gt;getLogger(), '-&gt;setLogger() sets the logger instance')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>LoaderTest</code>
-      <code>LoaderTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/PhpEngineTest.php">
-    <InvalidArgument occurrences="1">
-      <code>$this-&gt;templates[$template-&gt;getLogicalName()]</code>
-    </InvalidArgument>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$this-&gt;templates</code>
-    </InvalidPropertyAssignmentValue>
-    <MissingParamType occurrences="1">
-      <code>$name</code>
-    </MissingParamType>
-    <MissingThrowsDocblock occurrences="37">
-      <code>$engine</code>
-      <code>$engine</code>
-      <code>$engine</code>
+    <PossiblyNullPropertyFetch occurrences="1">
+      <code>$context-&gt;stack</code>
+    </PossiblyNullPropertyFetch>
+    <PossiblyNullReference occurrences="2">
       <code>get</code>
-      <code>get</code>
-      <code>render</code>
-      <code>render</code>
-      <code>render</code>
-      <code>render</code>
-      <code>render</code>
-      <code>render</code>
-      <code>static::assertArrayHasKey('bar', $engine)</code>
-      <code>static::assertArrayHasKey('bar', $engine)</code>
-      <code>static::assertEquals($foo, $engine-&gt;get('bar'), '-&gt;set() takes an alias as a second argument')</code>
-      <code>static::assertEquals($foo, $engine-&gt;get('foo'), '-&gt;set() sets a helper')</code>
-      <code>static::assertEquals($helper, $engine['foo'], '-&gt;offsetGet() returns the value of a helper')</code>
-      <code>static::assertEquals($this-&gt;loader, $engine-&gt;getLoader(), '__construct() takes a loader instance as its second first argument')</code>
-      <code>static::assertEquals('&amp;lt;br /&amp;gt;', $engine-&gt;escape('&lt;br /&gt;'), '-&gt;escape() escapes strings')</code>
-      <code>static::assertEquals('-barfoo-', $engine-&gt;render('foo.php', ['foo' =&gt; 'foo']), '-&gt;render() uses the decorator to decorate the template')</code>
-      <code>static::assertEquals('ISO-8859-1', $engine-&gt;getCharset(), 'EngineInterface::setCharset() changes the default charset to use')</code>
-      <code>static::assertEquals('ISO-8859-1', $helper-&gt;getCharset(), 'EngineInterface::setCharset() changes the default charset of helper')</code>
-      <code>static::assertEquals('The helper "bar" is not defined.', $e-&gt;getMessage(), '-&gt;offsetGet() throws an InvariantViolationException if the helper is not defined')</code>
-      <code>static::assertEquals('The helper "foobar" is not defined.', $e-&gt;getMessage(), '-&gt;get() throws an InvariantViolationException if the helper is not defined')</code>
-      <code>static::assertEquals('The template "name" does not exist.', $e-&gt;getMessage(), '-&gt;render() throws an InvalidArgumentException if the template does not exist')</code>
-      <code>static::assertEquals('UTF-8', $engine-&gt;getCharset(), 'EngineInterface::getCharset() returns UTF-8 by default')</code>
-      <code>static::assertEquals('UTF-8', $helper-&gt;getCharset(), 'HelperInterface::getCharset() returns UTF-8 by default')</code>
-      <code>static::assertEquals('bar-foo-', $engine-&gt;render('foo.php', ['foo' =&gt; 'foo', 'bar' =&gt; 'bar']), '-&gt;render() supports render() calls in templates')</code>
-      <code>static::assertEquals('foobar', $engine-&gt;render('foo.php', ['template' =&gt; 'foo', 'parameters' =&gt; 'bar']), '-&gt;render() extract variables')</code>
-      <code>static::assertEquals('global variable', $engine-&gt;render('global.php'))</code>
-      <code>static::assertEquals('overwritten', $engine-&gt;render('global.php', ['global' =&gt; 'overwritten']))</code>
-      <code>static::assertFalse($engine-&gt;has('foobar'), '-&gt;has() returns false if the helper does not exist')</code>
-      <code>static::assertInstanceOf(InvalidArgumentException::class, $e, '-&gt;render() throws an InvalidArgumentException if the template does not exist')</code>
-      <code>static::assertInstanceOf(InvariantViolationException::class, $e, '-&gt;get() throws an InvariantViolationException if the helper is not defined')</code>
-      <code>static::assertInstanceOf(InvariantViolationException::class, $e, '-&gt;offsetGet() throws an InvariantViolationException if the helper is not defined')</code>
-      <code>static::assertSame($this-&gt;loader, $engine-&gt;getLoader())</code>
-      <code>static::assertTrue($engine-&gt;has('foo'), '-&gt;has() returns true if the helper exists')</code>
-    </MissingThrowsDocblock>
-    <MixedArrayOffset occurrences="1">
-      <code>[$name =&gt; 'foo']</code>
-    </MixedArrayOffset>
-    <PropertyNotSetInConstructor occurrences="4">
-      <code>$loader</code>
-      <code>PhpEngineTest</code>
-      <code>PhpEngineTest</code>
-      <code>ProjectTemplateEngine</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Storage/FileStorageTest.php">
-    <MissingThrowsDocblock occurrences="2">
-      <code>static::assertInstanceOf(Storage::class, $storage, 'FileStorage is an instance of Storage')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>FileStorageTest</code>
-      <code>FileStorageTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Storage/StorageTest.php">
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-    <MissingThrowsDocblock occurrences="1">
-      <code>static::assertEquals('foo', (string) $storage, '__toString() returns the template name')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>StorageTest</code>
-      <code>StorageTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/Storage/StringStorageTest.php">
-    <MissingThrowsDocblock occurrences="2">
-      <code>static::assertEquals('foo', $storage-&gt;getContent(), '-&gt;getContent() returns the content of the template')</code>
-      <code>static::assertInstanceOf(Storage::class, $storage, 'StringStorage is an instance of Storage')</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>StringStorageTest</code>
-      <code>StringStorageTest</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="../tests/TemplateNameParserTest.php">
-    <MissingThrowsDocblock occurrences="2">
-      <code>static::assertEquals($template-&gt;getLogicalName(), $name)</code>
-      <code>static::assertEquals($template-&gt;getLogicalName(), $ref-&gt;getLogicalName())</code>
-    </MissingThrowsDocblock>
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>$parser</code>
-      <code>TemplateNameParserTest</code>
-      <code>TemplateNameParserTest</code>
-    </PropertyNotSetInConstructor>
+      <code>set</code>
+    </PossiblyNullReference>
   </file>
 </files>

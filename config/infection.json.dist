@@ -12,6 +12,6 @@
         }
     },
     "timeout": 10,
-    "minMsi": 85,
+    "minMsi": 75,
     "minCoveredMsi": 95
 }

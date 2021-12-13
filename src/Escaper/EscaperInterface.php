@@ -12,8 +12,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Hype\Internal;
+namespace Hype\Escaper;
 
-final class Context
+interface EscaperInterface
 {
+    public function setCharset(string $charset): void;
+
+    public function getCharset(): string;
+
+    public function escape(string $content): string;
+
+    public function getContext(): string;
 }

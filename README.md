@@ -17,13 +17,13 @@ $ composer require azjezz/hype
 
 ```php
 use Hype\Loader\FilesystemLoader;
-use Hype\PhpEngine;
+use Hype\PHPEngine;
 use Hype\Helper\SlotsHelper;
 use Hype\TemplateNameParser;
 
 $filesystemLoader = new FilesystemLoader(__DIR__.'/views/%name%');
 
-$templating = new PhpEngine(new TemplateNameParser(), $filesystemLoader);
+$templating = new PHPEngine(new TemplateNameParser(), $filesystemLoader);
 $templating->set(new SlotsHelper());
 
 echo $templating->render('hello.php', ['firstname' => 'Fabien']);

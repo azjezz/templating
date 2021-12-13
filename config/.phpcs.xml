@@ -5,6 +5,8 @@
     <file>../src</file>
     <file>../config</file>
 
+    <exclude-pattern>*/tests/Fixtures/templates/*.php</exclude-pattern>
+
     <arg name="basepath" value="."/>
     <arg name="colors"/>
     <arg name="parallel" value="75"/>
